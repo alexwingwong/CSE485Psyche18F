@@ -16,13 +16,26 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        float adjustedSpeed;
+        if(Input.GetKey("space")){
+            adjustedSpeed = speed * 1.75f;
+        }else{
+            adjustedSpeed = speed;
+        }
+
+
+        float fuel = FindObjectOfType<psycheResourceController>().getFuel();
+        if(fuel <= 0){
+            adjustedSpeed = 1f;
+        }
+
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
         Vector2 pos = transform.position;
 
-        pos.x += h * speed * Time.deltaTime;
-        pos.y += v * speed * Time.deltaTime;
+        pos.x += h * adjustedSpeed * Time.deltaTime;
+        pos.y += v * adjustedSpeed * Time.deltaTime;
 
         transform.position = pos;
     }
